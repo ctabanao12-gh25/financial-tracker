@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    background-color: #020617;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* dark scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: #0f172a; }
+  ::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+  /* Force the browser's native date-picker calendar popup into dark mode */
+  input[type="date"] {
+    color-scheme: dark;
+  }
+
+  /* Style the calendar icon to match the slate palette */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    filter: invert(0.6) sepia(0.2) saturate(0.5) hue-rotate(200deg);
+    padding: 2px;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0.8) sepia(0.3) saturate(0.8) hue-rotate(200deg);
+  }
+
+  /* Remove number input spinners */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] { -moz-appearance: textfield; }
+}
+
+/* ── Accent colour themes ──────────────────────────────────────────── */
+[data-theme="violet"] {
+  --accent:              #7c3aed;
+  --accent-hover:        #8b5cf6;
+  --accent-active:       #6d28d9;
+  --accent-light:        #a78bfa;
+  --accent-subtle:       rgba(139, 92, 246, 0.10);
+  --accent-subtle-hover: rgba(139, 92, 246, 0.15);
+  --accent-border:       rgba(139, 92, 246, 0.35);
+  --accent-ring:         rgba(139, 92, 246, 0.50);
+}
+[data-theme="blue"] {
+  --accent:              #2563eb;
+  --accent-hover:        #3b82f6;
+  --accent-active:       #1d4ed8;
+  --accent-light:        #60a5fa;
+  --accent-subtle:       rgba(59, 130, 246, 0.10);
+  --accent-subtle-hover: rgba(59, 130, 246, 0.15);
+  --accent-border:       rgba(59, 130, 246, 0.35);
+  --accent-ring:         rgba(59, 130, 246, 0.50);
+}
+[data-theme="cyan"] {
+  --accent:              #0891b2;
+  --accent-hover:        #06b6d4;
+  --accent-active:       #0e7490;
+  --accent-light:        #22d3ee;
+  --accent-subtle:       rgba(6, 182, 212, 0.10);
+  --accent-subtle-hover: rgba(6, 182, 212, 0.15);
+  --accent-border:       rgba(6, 182, 212, 0.35);
+  --accent-ring:         rgba(6, 182, 212, 0.50);
+}
+[data-theme="emerald"] {
+  --accent:              #059669;
+  --accent-hover:        #10b981;
+  --accent-active:       #047857;
+  --accent-light:        #34d399;
+  --accent-subtle:       rgba(16, 185, 129, 0.10);
+  --accent-subtle-hover: rgba(16, 185, 129, 0.15);
+  --accent-border:       rgba(16, 185, 129, 0.35);
+  --accent-ring:         rgba(16, 185, 129, 0.50);
+}
+[data-theme="rose"] {
+  --accent:              #e11d48;
+  --accent-hover:        #f43f5e;
+  --accent-active:       #be123c;
+  --accent-light:        #fb7185;
+  --accent-subtle:       rgba(244, 63, 94, 0.10);
+  --accent-subtle-hover: rgba(244, 63, 94, 0.15);
+  --accent-border:       rgba(244, 63, 94, 0.35);
+  --accent-ring:         rgba(244, 63, 94, 0.50);
+}
+[data-theme="amber"] {
+  --accent:              #d97706;
+  --accent-hover:        #f59e0b;
+  --accent-active:       #b45309;
+  --accent-light:        #fbbf24;
+  --accent-subtle:       rgba(245, 158, 11, 0.10);
+  --accent-subtle-hover: rgba(245, 158, 11, 0.15);
+  --accent-border:       rgba(245, 158, 11, 0.35);
+  --accent-ring:         rgba(245, 158, 11, 0.50);
+}
