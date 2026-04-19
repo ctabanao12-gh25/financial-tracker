@@ -11,8 +11,8 @@ export default function BudgetPage({
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-lg font-bold text-white">Budget</h2>
-        <p className="text-xs text-slate-500 mt-0.5">Track and manage your monthly spending limits</p>
+        <h2 className="text-base font-bold text-white">Budget</h2>
+        <p className="text-[11px] text-slate-500 mt-0.5">Track and manage your monthly spending limits</p>
       </div>
 
       <BudgetProgress
@@ -56,22 +56,22 @@ export default function BudgetPage({
             body: "You'll see a warning at 60% and 80% of your budget limit. Plan ahead to avoid going over.",
           },
         ].map((tip) => (
-          <div key={tip.title} className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+          <div key={tip.title} className="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 hover:border-slate-700/80 transition-colors">
             <div className={`w-9 h-9 ${tip.iconBg} rounded-xl flex items-center justify-center mb-3`}>
-              <svg className={`w-5 h-5 ${tip.iconText}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <svg className={`w-5 h-5 ${tip.iconText}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
                 {tip.icon}
               </svg>
             </div>
-            <p className="text-sm font-semibold text-white mb-1">{tip.title}</p>
-            <p className="text-xs text-slate-500">{tip.body}</p>
+            <p className="text-[13px] font-semibold text-white mb-1.5">{tip.title}</p>
+            <p className="text-[11px] text-slate-500 leading-relaxed">{tip.body}</p>
           </div>
         ))}
       </div>
 
       {/* Spending history */}
       {monthlyData.some((d) => d.expenses > 0) && (
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-white mb-4">Monthly Spending History</h3>
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-5">
+          <h3 className="text-[13px] font-semibold text-white mb-4">Monthly Spending History</h3>
           <div className="flex flex-col gap-3.5">
             {[...monthlyData].reverse().map((row) => {
               const maxExpenses = Math.max(...monthlyData.map((d) => d.expenses), 1);
@@ -79,19 +79,19 @@ export default function BudgetPage({
               return (
                 <div key={row.key}>
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-sm text-slate-400">{row.label}</span>
-                    <span className={`text-sm font-semibold ${row.expenses > 0 ? "text-rose-400" : "text-slate-600"}`}>
+                    <span className="text-[13px] font-medium text-slate-400">{row.label}</span>
+                    <span className={`text-[13px] font-bold tabular-nums ${row.expenses > 0 ? "text-rose-400" : "text-slate-700"}`}>
                       {row.expenses > 0 ? formatCurrency(row.expenses) : "—"}
                     </span>
                   </div>
-                  <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-rose-500/60 rounded-full transition-all duration-500"
                       style={{ width: `${barPct}%` }}
                     />
                   </div>
                   {currentMonthBudget > 0 && row.expenses > currentMonthBudget && (
-                    <p className="text-xs text-rose-400 mt-1">
+                    <p className="text-[11px] text-rose-400 mt-1 font-medium">
                       Over budget by {formatCurrency(row.expenses - currentMonthBudget)}
                     </p>
                   )}
@@ -100,7 +100,7 @@ export default function BudgetPage({
             })}
           </div>
           {currentMonthBudget === 0 && (
-            <p className="text-xs text-slate-600 mt-4">
+            <p className="text-[11px] text-slate-600 mt-4">
               Set a monthly budget above to see spending relative to your limit.
             </p>
           )}

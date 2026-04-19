@@ -2,9 +2,9 @@ import { useState } from "react";
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "../utils/constants";
 
 const inputClass =
-  "w-full bg-slate-800 border border-slate-700/50 text-slate-100 placeholder-slate-600 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] focus:border-[var(--accent-border)] transition";
+  "w-full bg-slate-800/60 border border-slate-700/50 text-slate-100 placeholder-slate-600 rounded-xl px-3 py-2.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] focus:border-[var(--accent-border)] hover:border-slate-600/70 transition-all duration-150";
 
-const labelClass = "block text-xs font-medium text-slate-500 mb-1.5";
+const labelClass = "block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5";
 
 function getToday() {
   const d = new Date();
@@ -28,8 +28,7 @@ export default function TransactionForm({ onAdd }) {
   const categories =
     form.type === "income" ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
 
-  function handleTypeChange(e) {
-    const newType = e.target.value;
+  function handleTypeChange(newType) {
     const newCategories =
       newType === "income" ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
     setForm((prev) => ({ ...prev, type: newType, category: newCategories[0] }));
@@ -57,60 +56,58 @@ export default function TransactionForm({ onAdd }) {
   }
 
   return (
-    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-5">
-      <div className="mb-4">
-        <h2 className="text-sm font-semibold text-white">Add Transaction</h2>
-        <p className="text-xs text-slate-500 mt-0.5">Record a new income or expense</p>
+    <div className="bg-slate-900 rounded-2xl border border-slate-800/80 p-5">
+      <div className="mb-5">
+        <h2 className="text-[13px] font-semibold text-white">Add Transaction</h2>
+        <p className="text-[11px] text-slate-500 mt-0.5">Record income or expense</p>
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
-        {/* Type toggle */}
-        <div className="grid grid-cols-2 gap-2">
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {/* Type toggle — pill style */}
+        <div className="p-1 bg-slate-800/60 rounded-xl border border-slate-700/40 grid grid-cols-2 gap-1">
           {["expense", "income"].map((t) => (
-            <label
+            <button
               key={t}
-              className={`relative flex items-center justify-center py-2.5 rounded-xl text-sm font-medium cursor-pointer transition-all ${
+              type="button"
+              onClick={() => handleTypeChange(t)}
+              className={`flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-[13px] font-semibold transition-all duration-150 ${
                 form.type === t
                   ? t === "income"
-                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
-                    : "bg-rose-500/15 text-rose-400 border border-rose-500/30"
-                  : "bg-slate-800 text-slate-500 border border-slate-700/50 hover:bg-slate-700/50"
+                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-sm"
+                    : "bg-rose-500/15 text-rose-400 border border-rose-500/30 shadow-sm"
+                  : "text-slate-500 hover:text-slate-300"
               }`}
             >
-              <input
-                type="radio"
-                name="type"
-                value={t}
-                checked={form.type === t}
-                onChange={handleTypeChange}
-                className="sr-only"
-              />
               {t === "income" ? (
-                <svg className="w-3.5 h-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 11l5-5m0 0l5 5m-5-5v12" />
                 </svg>
               ) : (
-                <svg className="w-3.5 h-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
                 </svg>
               )}
               {t.charAt(0).toUpperCase() + t.slice(1)}
-            </label>
+            </button>
           ))}
         </div>
 
         {/* Amount */}
         <div>
-          <label className={labelClass}>Amount ($)</label>
-          <input
-            type="number"
-            name="amount"
-            value={form.amount}
-            onChange={handleChange}
-            placeholder="0.00"
-            min="0.01"
-            step="0.01"
-            className={inputClass}
-          />
+          <label className={labelClass}>Amount</label>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[13px] font-medium">$</span>
+            <input
+              type="number"
+              name="amount"
+              value={form.amount}
+              onChange={handleChange}
+              placeholder="0.00"
+              min="0.01"
+              step="0.01"
+              className={`${inputClass} pl-7`}
+            />
+          </div>
         </div>
 
         {/* Category */}
@@ -123,9 +120,7 @@ export default function TransactionForm({ onAdd }) {
             className={inputClass}
           >
             {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
+              <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
         </div>
@@ -157,17 +152,17 @@ export default function TransactionForm({ onAdd }) {
         </div>
 
         {error && (
-          <p className="text-xs text-rose-400 flex items-center gap-1.5">
-            <svg className="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-rose-500/8 border border-rose-500/20 rounded-xl">
+            <svg className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
-            {error}
-          </p>
+            <p className="text-[11px] text-rose-400 font-medium">{error}</p>
+          </div>
         )}
 
         <button
           type="submit"
-          className="mt-0.5 bg-[var(--accent)] hover:bg-[var(--accent-hover)] active:bg-[var(--accent-active)] text-white font-semibold py-2.5 rounded-xl text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)]"
+          className="mt-1 bg-[var(--accent)] hover:bg-[var(--accent-hover)] active:bg-[var(--accent-active)] text-white font-semibold py-3 rounded-xl text-[13px] transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] hover:shadow-lg hover:shadow-[var(--accent-subtle)] active:scale-[0.99]"
         >
           Add Transaction
         </button>

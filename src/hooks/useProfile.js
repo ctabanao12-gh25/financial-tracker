@@ -21,7 +21,7 @@ export function useProfile() {
     try {
       const raw = localStorage.getItem(KEY);
       if (raw) return { ...DEFAULTS, ...JSON.parse(raw) };
-    } catch {}
+    } catch { /* ignore parse errors */ }
     return { ...DEFAULTS };
   });
 

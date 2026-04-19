@@ -9,10 +9,10 @@
   }
 
   /* dark scrollbar */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: #0f172a; }
-  ::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
-  ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #334155; }
 
   /* Force the browser's native date-picker calendar popup into dark mode */
   input[type="date"] {
@@ -24,7 +24,7 @@
     background-color: transparent;
     border-radius: 4px;
     cursor: pointer;
-    filter: invert(0.6) sepia(0.2) saturate(0.5) hue-rotate(200deg);
+    filter: invert(0.5) sepia(0.2) saturate(0.5) hue-rotate(200deg);
     padding: 2px;
   }
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
@@ -39,6 +39,34 @@
   }
   input[type="number"] { -moz-appearance: textfield; }
 }
+
+@layer utilities {
+  .card {
+    @apply bg-slate-900 border border-slate-800/80 rounded-2xl;
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:border-slate-700/80 hover:shadow-lg hover:shadow-black/20;
+  }
+  .glass {
+    @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/30;
+  }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-slide-up { animation: slide-up 0.25s ease both; }
+.animate-fade-in  { animation: fade-in 0.2s ease both; }
 
 /* ── Accent colour themes ──────────────────────────────────────────── */
 [data-theme="violet"] {

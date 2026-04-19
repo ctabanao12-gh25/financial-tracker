@@ -11,33 +11,36 @@ export default function BalanceHero({ balance, totalIncome, totalExpenses }) {
   const monthLabel = now.toLocaleString("en-US", { month: "long", year: "numeric" });
 
   return (
-    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-5 flex flex-col gap-5 h-full">
+    <div className="relative bg-slate-900 rounded-2xl border border-slate-800/80 p-5 flex flex-col gap-5 h-full overflow-hidden">
+      {/* subtle accent glow */}
+      <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full blur-3xl opacity-5 bg-[var(--accent)]" />
 
       {/* Header row */}
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-          Spending Overview
+      <div className="relative flex items-center justify-between">
+        <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest">
+          Overview
         </p>
-        <span className="text-xs text-slate-500 bg-slate-800 border border-slate-700/50 px-2.5 py-1 rounded-lg">
+        <span className="text-[11px] font-medium text-slate-500 bg-slate-800/80 border border-slate-700/40 px-2.5 py-1 rounded-lg">
           {monthLabel}
         </span>
       </div>
 
       {/* Balance */}
-      <div>
+      <div className="relative">
+        <p className="text-[11px] font-medium text-slate-500 mb-1.5">Net Balance</p>
         <p
-          className={`text-[2.15rem] font-bold tracking-tight leading-none ${
+          className={`text-[2.4rem] font-bold tracking-tight leading-none ${
             isPositive ? "text-white" : "text-rose-400"
           }`}
         >
-          {formatCurrency(balance)}
+          {isPositive ? "" : "-"}{formatCurrency(Math.abs(balance))}
         </p>
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex items-center gap-2.5 mt-2.5">
           <span
-            className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-md ${
+            className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg ${
               isPositive
-                ? "bg-emerald-500/15 text-emerald-400"
-                : "bg-rose-500/15 text-rose-400"
+                ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
             }`}
           >
             {isPositive ? (
@@ -52,54 +55,53 @@ export default function BalanceHero({ balance, totalIncome, totalExpenses }) {
             {isPositive ? "Surplus" : "Deficit"}
           </span>
           {savingsRate !== null && (
-            <span className="text-xs text-slate-500">
-              {savingsRate}% savings rate
+            <span className="text-[11px] text-slate-500 font-medium">
+              {savingsRate}% saved
             </span>
           )}
         </div>
       </div>
 
       {/* Income vs Expenses ratio bar */}
-      <div>
-        <div className="flex justify-between text-xs mb-1.5">
-          <span className="text-emerald-400 font-medium">Income</span>
-          <span className="text-rose-400 font-medium">Expenses</span>
+      <div className="relative">
+        <div className="flex justify-between text-[11px] font-medium mb-2">
+          <span className="text-emerald-400">Income</span>
+          <span className="text-rose-400">Expenses</span>
         </div>
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden flex">
+        <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden flex gap-0.5">
           <div
-            className="h-full bg-emerald-500 rounded-full transition-all duration-700"
+            className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-700"
             style={{ width: `${incomeRatio}%` }}
           />
-          <div className="flex-1 bg-rose-500/60 rounded-full" />
+          <div className="flex-1 bg-rose-500/40 rounded-full" />
         </div>
-        <div className="flex justify-between text-xs mt-1 text-slate-600">
+        <div className="flex justify-between text-[11px] text-slate-600 mt-1.5 font-medium">
           <span>{incomeRatio.toFixed(0)}%</span>
           <span>{(100 - incomeRatio).toFixed(0)}%</span>
         </div>
       </div>
 
       {/* Income / Expense stats */}
-      <div className="grid grid-cols-2 gap-3 mt-auto">
-        <div className="bg-slate-800/60 rounded-xl px-3.5 py-3 border border-slate-700/30">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" />
-            <span className="text-xs text-slate-500">Income</span>
+      <div className="relative grid grid-cols-2 gap-2.5 mt-auto">
+        <div className="bg-slate-800/50 rounded-xl px-3.5 py-3 border border-slate-700/30 hover:border-emerald-500/20 transition-colors">
+          <div className="flex items-center gap-1.5 mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
+            <span className="text-[11px] font-medium text-slate-500">Income</span>
           </div>
-          <p className="text-base font-bold text-emerald-400 leading-none">
+          <p className="text-[15px] font-bold text-emerald-400 leading-none tracking-tight">
             {formatCurrency(totalIncome)}
           </p>
         </div>
-        <div className="bg-slate-800/60 rounded-xl px-3.5 py-3 border border-slate-700/30">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <span className="w-2 h-2 rounded-full bg-rose-400 flex-shrink-0" />
-            <span className="text-xs text-slate-500">Expenses</span>
+        <div className="bg-slate-800/50 rounded-xl px-3.5 py-3 border border-slate-700/30 hover:border-rose-500/20 transition-colors">
+          <div className="flex items-center gap-1.5 mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 flex-shrink-0" />
+            <span className="text-[11px] font-medium text-slate-500">Expenses</span>
           </div>
-          <p className="text-base font-bold text-rose-400 leading-none">
+          <p className="text-[15px] font-bold text-rose-400 leading-none tracking-tight">
             {formatCurrency(totalExpenses)}
           </p>
         </div>
       </div>
-
     </div>
   );
 }

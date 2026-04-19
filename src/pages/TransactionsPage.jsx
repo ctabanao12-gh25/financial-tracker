@@ -55,14 +55,14 @@ export default function TransactionsPage({
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold text-white">Transactions</h2>
-          <p className="text-xs text-slate-500 mt-0.5">All your financial records</p>
+          <h2 className="text-base font-bold text-white">Transactions</h2>
+          <p className="text-[11px] text-slate-500 mt-0.5">All your financial records</p>
         </div>
         <button
           onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white text-sm font-semibold px-4 py-2 rounded-xl transition"
+          className="flex items-center gap-1.5 bg-[var(--accent)] hover:bg-[var(--accent-hover)] active:bg-[var(--accent-active)] text-white text-[13px] font-semibold px-4 py-2.5 rounded-xl transition-all duration-150 hover:shadow-md hover:shadow-[var(--accent-subtle)]"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
           </svg>
           {showForm ? "Close" : "Add Transaction"}
@@ -71,25 +71,30 @@ export default function TransactionsPage({
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-          <p className="text-xs text-slate-500 mb-1">Total Records</p>
-          <p className="text-2xl font-bold text-white">{transactions.length}</p>
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 hover:border-slate-700/80 transition-colors">
+          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1.5">Total Records</p>
+          <p className="text-2xl font-bold text-white tracking-tight">{transactions.length}</p>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-          <p className="text-xs text-slate-500 mb-1">Income Records</p>
-          <p className="text-2xl font-bold text-emerald-400">{incomeCount}</p>
-          <p className="text-xs text-slate-600 mt-0.5">{formatCurrency(totalIncome)}</p>
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 hover:border-slate-700/80 transition-colors">
+          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1.5">Income</p>
+          <p className="text-2xl font-bold text-emerald-400 tracking-tight">{incomeCount}</p>
+          <p className="text-[11px] text-emerald-500/70 mt-1 font-medium">{formatCurrency(totalIncome)}</p>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-          <p className="text-xs text-slate-500 mb-1">Expense Records</p>
-          <p className="text-2xl font-bold text-rose-400">{expenseCount}</p>
-          <p className="text-xs text-slate-600 mt-0.5">{formatCurrency(totalExpenses)}</p>
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 hover:border-slate-700/80 transition-colors">
+          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1.5">Expenses</p>
+          <p className="text-2xl font-bold text-rose-400 tracking-tight">{expenseCount}</p>
+          <p className="text-[11px] text-rose-500/70 mt-1 font-medium">{formatCurrency(totalExpenses)}</p>
         </div>
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-          <p className="text-xs text-slate-500 mb-1">Net Balance</p>
-          <p className={`text-2xl font-bold ${balance >= 0 ? "text-white" : "text-rose-400"}`}>
-            {formatCurrency(balance)}
+        <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 hover:border-slate-700/80 transition-colors">
+          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1.5">Net Balance</p>
+          <p className={`text-2xl font-bold tracking-tight ${balance >= 0 ? "text-white" : "text-rose-400"}`}>
+            {formatCurrency(Math.abs(balance))}
           </p>
+          {balance !== 0 && (
+            <p className={`text-[11px] mt-1 font-medium ${balance >= 0 ? "text-emerald-500/70" : "text-rose-500/70"}`}>
+              {balance >= 0 ? "Available" : "In the red"}
+            </p>
+          )}
         </div>
       </div>
 
@@ -97,40 +102,40 @@ export default function TransactionsPage({
       {showForm && <TransactionForm onAdd={handleAdd} />}
 
       {/* Filter bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4">
-        <div className="flex flex-col sm:flex-row gap-3">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl p-4">
+        <div className="flex flex-col sm:flex-row gap-2.5">
           {/* Search */}
           <div className="relative flex-1 min-w-0">
             <svg
               className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none"
-              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+              <path strokeLinecap="round" strokeLinejoin="round"
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
               type="text"
-              placeholder="Search by description or category…"
+              placeholder="Search transactions…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700/50 text-slate-100 placeholder-slate-600 rounded-xl pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] transition"
+              className="w-full bg-slate-800/60 border border-slate-700/50 text-slate-100 placeholder-slate-600 rounded-xl pl-9 pr-3 py-2.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] hover:border-slate-600/70 transition-all duration-150"
             />
           </div>
 
           {/* Type filter */}
-          <div className="flex gap-1.5 flex-shrink-0">
+          <div className="flex gap-1 flex-shrink-0 p-1 bg-slate-800/60 border border-slate-700/40 rounded-xl">
             {["all", "income", "expense"].map((t) => (
               <button
                 key={t}
                 onClick={() => setTypeFilter(t)}
-                className={`px-3 py-2 rounded-xl text-xs font-medium transition ${
+                className={`px-3 py-1.5 rounded-lg text-[12px] font-semibold transition-all duration-150 ${
                   typeFilter === t
                     ? t === "income"
-                      ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                      ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/25"
                       : t === "expense"
-                      ? "bg-rose-500/15 text-rose-400 border border-rose-500/30"
+                      ? "bg-rose-500/15 text-rose-400 border border-rose-500/25"
                       : "bg-[var(--accent-subtle)] text-[var(--accent-light)] border border-[var(--accent-border)]"
-                    : "bg-slate-800 text-slate-500 border border-slate-700/50 hover:text-slate-300"
+                    : "text-slate-500 hover:text-slate-300"
                 }`}
               >
                 {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -142,7 +147,7 @@ export default function TransactionsPage({
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-slate-800 border border-slate-700/50 text-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] transition"
+            className="bg-slate-800/60 border border-slate-700/50 text-slate-300 rounded-xl px-3 py-2.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] hover:border-slate-600/70 transition-all duration-150"
           >
             {ALL_CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>{cat}</option>
@@ -153,7 +158,7 @@ export default function TransactionsPage({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="bg-slate-800 border border-slate-700/50 text-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] transition"
+            className="bg-slate-800/60 border border-slate-700/50 text-slate-300 rounded-xl px-3 py-2.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-[var(--accent-ring)] hover:border-slate-600/70 transition-all duration-150"
           >
             <option value="date">Sort: Date</option>
             <option value="amount">Sort: Amount</option>
@@ -162,9 +167,9 @@ export default function TransactionsPage({
       </div>
 
       {/* Transaction list */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-sm font-semibold text-white">
+      <div className="bg-slate-900 border border-slate-800/80 rounded-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800/60">
+          <p className="text-[13px] font-semibold text-white">
             {hasActiveFilter
               ? `${filtered.length} of ${transactions.length} transactions`
               : `All Transactions (${transactions.length})`}
@@ -172,7 +177,7 @@ export default function TransactionsPage({
           {hasActiveFilter && (
             <button
               onClick={() => { setSearch(""); setTypeFilter("all"); setCategoryFilter("All"); }}
-              className="text-xs text-slate-500 hover:text-slate-300 transition"
+              className="text-[11px] font-semibold text-slate-500 hover:text-[var(--accent-light)] transition-colors"
             >
               Clear filters
             </button>
@@ -180,22 +185,26 @@ export default function TransactionsPage({
         </div>
 
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-14 text-slate-700">
-            <svg className="w-10 h-10 mb-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            <p className="text-sm">
-              {transactions.length === 0 ? "No transactions yet" : "No results found"}
-            </p>
-            <p className="text-xs mt-1 text-slate-700">
-              {transactions.length === 0
-                ? "Use the button above to add your first record"
-                : "Try adjusting your search or filters"}
-            </p>
+          <div className="flex flex-col items-center justify-center py-16 gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-slate-800/60 border border-slate-700/30 flex items-center justify-center">
+              <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <div className="text-center">
+              <p className="text-[13px] font-medium text-slate-600">
+                {transactions.length === 0 ? "No transactions yet" : "No results found"}
+              </p>
+              <p className="text-[11px] mt-1 text-slate-700">
+                {transactions.length === 0
+                  ? "Use the button above to add your first record"
+                  : "Try adjusting your search or filters"}
+              </p>
+            </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col px-2 py-2">
             {filtered.map((tx) => (
               <TransactionItem key={tx.id} transaction={tx} onDelete={onDelete} />
             ))}
