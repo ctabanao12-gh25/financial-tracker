@@ -1,4 +1,4 @@
-export default function Header({ userName, initials, avatarGradient, onOpenSettings }) {
+export default function Header({ userName, initials, avatarGradient, profilePicture, onOpenSettings }) {
   const now = new Date();
   const hour = now.getHours();
   const greeting =
