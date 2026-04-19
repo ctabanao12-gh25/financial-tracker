@@ -66,7 +66,7 @@ TransactionList
 
 ## Git & GitHub
 
-A **Stop hook** in `.claude/settings.json` automatically commits and pushes all changes to `origin master` at the end of every session. The commit message format is:
+A **Stop hook** in `.claude/settings.json` automatically commits and pushes all changes to `origin testing` at the end of every session. The commit message format is:
 
 ```
 Auto-save: session changes YYYY-MM-DD HH:MM
