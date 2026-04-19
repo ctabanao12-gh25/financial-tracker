@@ -6,6 +6,7 @@ const DEFAULTS = {
   name: "Sajbur",
   avatarGradient: "from-violet-500 to-indigo-600",
   theme: "violet",
+  profilePicture: null,
 };
 
 function getInitials(name) {
