@@ -63,3 +63,15 @@ MonthlyChart (3/5) + SpendingChart (2/5)   — lg:grid-cols-5
 TransactionForm    + TopCategories          — lg:grid-cols-2
 TransactionList
 ```
+
+## Git & GitHub
+
+A **Stop hook** in `.claude/settings.json` automatically commits and pushes all changes to `origin testing` at the end of every session. The commit message format is:
+
+```
+Auto-save: session changes YYYY-MM-DD HH:MM
+```
+
+- Only tracked files are staged (`git add -u`) — untracked files like `.claude/` internals are never auto-committed.
+- No empty commits are created if there are no changes.
+- When explicitly asked to commit mid-session, do so immediately with a descriptive message and push — the Stop hook is a safety net, not a replacement.

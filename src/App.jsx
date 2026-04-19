@@ -123,6 +123,7 @@ export default function App() {
         onNavigate={setActivePage}
         initials={initials}
         avatarGradient={profile.avatarGradient}
+        profilePicture={profile.profilePicture}
         userName={profile.name}
       />
 
@@ -131,6 +132,7 @@ export default function App() {
           userName={profile.name}
           initials={initials}
           avatarGradient={profile.avatarGradient}
+          profilePicture={profile.profilePicture}
           onOpenSettings={() => setActivePage("settings")}
         />
         <main className="flex-1 px-4 sm:px-6 py-6 max-w-screen-xl mx-auto w-full">

@@ -1,4 +1,4 @@
-export default function Header({ userName, initials, avatarGradient, onOpenSettings }) {
+export default function Header({ userName, initials, avatarGradient, profilePicture, onOpenSettings }) {
   const now = new Date();
   const hour = now.getHours();
   const greeting =
@@ -45,11 +45,15 @@ export default function Header({ userName, initials, avatarGradient, onOpenSetti
         {/* Avatar */}
         <button
           onClick={onOpenSettings}
-          className={`w-9 h-9 rounded-xl bg-gradient-to-br ${
-            avatarGradient || "from-violet-500 to-indigo-600"
-          } flex items-center justify-center text-white text-sm font-bold cursor-pointer hover:opacity-90 hover:scale-105 active:scale-100 transition-all duration-150 select-none shadow-md`}
+          className={`w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 cursor-pointer hover:opacity-90 hover:scale-105 active:scale-100 transition-all duration-150 shadow-md ${
+            profilePicture ? "" : `bg-gradient-to-br ${avatarGradient || "from-violet-500 to-indigo-600"} flex items-center justify-center`
+          }`}
         >
-          {initials}
+          {profilePicture ? (
+            <img src={profilePicture} alt="Profile" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-white text-sm font-bold select-none">{initials}</span>
+          )}
         </button>
       </div>
     </header>
