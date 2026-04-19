@@ -81,7 +81,7 @@ const NAV_ITEMS = [
   },
 ];
 
-export default function Sidebar({ active, onNavigate, initials, avatarGradient, userName }) {
+export default function Sidebar({ active, onNavigate, initials, avatarGradient, profilePicture, userName }) {
   return (
     <aside className="fixed top-0 left-0 h-screen w-16 lg:w-56 bg-slate-950 border-r border-slate-800/50 flex flex-col z-20">
       {/* Brand */}
@@ -131,11 +131,15 @@ export default function Sidebar({ active, onNavigate, initials, avatarGradient, 
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-800/70 transition-all duration-150 w-full text-left group"
         >
           <div
-            className={`w-7 h-7 rounded-lg bg-gradient-to-br ${
-              avatarGradient || "from-violet-500 to-indigo-600"
-            } flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-md group-hover:shadow-lg transition-shadow`}
+            className={`w-7 h-7 rounded-lg overflow-hidden flex-shrink-0 shadow-md group-hover:shadow-lg transition-shadow ${
+              profilePicture ? "" : `bg-gradient-to-br ${avatarGradient || "from-violet-500 to-indigo-600"} flex items-center justify-center`
+            }`}
           >
-            {initials}
+            {profilePicture ? (
+              <img src={profilePicture} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-white text-xs font-bold">{initials}</span>
+            )}
           </div>
           <div className="hidden lg:block min-w-0">
             <p className="text-xs font-semibold text-slate-200 leading-none truncate">{userName}</p>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const THEME_PRESETS = [
   { id: "violet",  label: "Violet",  color: "#7c3aed" },
@@ -27,6 +27,26 @@ export default function SettingsPage({
 }) {
   const [nameInput, setNameInput] = useState(profile.name);
   const [savedMsg, setSavedMsg] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = useRef(null);
+
+  function handlePictureUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      setUploadError("Image must be under 2 MB.");
+      return;
+    }
+    setUploadError("");
+    const reader = new FileReader();
+    reader.onload = (ev) => onUpdateProfile({ profilePicture: ev.target.result });
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }
+
+  function removePicture() {
+    onUpdateProfile({ profilePicture: null });
+  }
 
   const currentPresetId =
     AVATAR_PRESETS.find((p) => profile.avatarGradient === p.gradient)?.id ?? "violet";
@@ -79,17 +99,49 @@ export default function SettingsPage({
         {/* Avatar preview */}
         <div className="flex items-center gap-4 mb-6">
           <div
-            className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${
-              profile.avatarGradient || "from-violet-500 to-indigo-600"
-            } flex items-center justify-center text-white text-xl font-bold select-none shadow-lg`}
+            className={`w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg ${
+              profile.profilePicture
+                ? ""
+                : `bg-gradient-to-br ${profile.avatarGradient || "from-violet-500 to-indigo-600"} flex items-center justify-center`
+            }`}
           >
-            {initials}
+            {profile.profilePicture ? (
+              <img src={profile.profilePicture} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-white text-xl font-bold select-none">{initials}</span>
+            )}
           </div>
           <div>
             <p className="text-[15px] font-bold text-white leading-none">{profile.name}</p>
             <p className="text-[11px] text-slate-500 mt-1 font-medium">
               {transactions.length} transaction{transactions.length !== 1 ? "s" : ""} recorded
             </p>
+            <div className="flex items-center gap-2 mt-2.5">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handlePictureUpload}
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white transition-all duration-150"
+              >
+                {profile.profilePicture ? "Change photo" : "Upload photo"}
+              </button>
+              {profile.profilePicture && (
+                <button
+                  onClick={removePicture}
+                  className="text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition-all duration-150"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+            {uploadError && (
+              <p className="text-[11px] text-rose-400 mt-1.5">{uploadError}</p>
+            )}
           </div>
         </div>
 
